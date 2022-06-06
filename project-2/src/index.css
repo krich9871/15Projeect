@@ -81,6 +81,7 @@ p {
   }
 }
 .btn {
+
   background: var(--clr-primary-5);
   display: inline-block;
   padding: 0.25rem 0.5rem;
@@ -164,10 +165,10 @@ main {
   display: block;
   width: 200px;
   margin: 1rem auto 0 auto;
-  color: var(--clr-red-dark);
+  color: pink;
   letter-spacing: var(--spacing);
   background: transparent;
-  border: 1px solid var(--clr-red-dark);
+  border: 10px solid var(--clr-red-dark);
   padding: 0.25rem 0.5rem;
   border-radius: var(--radius);
 }*,
@@ -332,12 +333,13 @@ main {
 }
 .single-tour .delete-btn {
   display: block;
-  width: 200px;
+  font-size: 25px;
+  width: 180px;
   margin: 1rem auto 0 auto;
-  color: var(--clr-red-dark);
+  color: black;
   letter-spacing: var(--spacing);
   background: transparent;
-  border: 1px solid var(--clr-red-dark);
-  padding: 0.25rem 0.5rem;
-  border-radius: var(--radius);
+  border: snow;
+  padding:10px 0.5rem;
+
 }
