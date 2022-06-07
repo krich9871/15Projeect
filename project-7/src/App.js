@@ -5,6 +5,9 @@ function App() {
   const [people, setPeople] = useState(data);
   const [index, setIndex] = useState(0);
   
+
+  //Runs on the index 
+  //And any time any dependency value changes for people
   useEffect(()=>{
     const lastIndex = people.length-1;
     if(index < 0){
