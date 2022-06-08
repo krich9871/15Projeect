@@ -1,10 +1,15 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 
-function Alert() {
+function Alert({ type, msg, removeAlert ,list}) {
+  useEffect(() => {
+    const outalert = setTimeout(() => {
+      removeAlert();
+    },3000)
+    return () => clearTimeout(outalert) ;
+  }, [list])
+  
   return (
-    <div>
-      
-    </div>
+    <p className={`alert alert-${type}`}>{msg}</p>
   )
 }
 
