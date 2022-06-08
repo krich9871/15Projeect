@@ -2,7 +2,7 @@
 import React, { useState, useRef, useEffect } from 'react'
 import { links, social } from './data'
 import logo from './logo.svg'
-import { FiAlignJustify, FiTwitter } from "react-icons/fi";
+import { FiAlignJustify } from "react-icons/fi";
 function Navbar() {
     const [showLinks, Setshowlinks] = useState(false);
     const linkContainerRef = useRef(null) ;

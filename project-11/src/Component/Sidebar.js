@@ -1,5 +1,5 @@
 import React from 'react'
-import { links, social } from './data'
+import { links} from './data'
 function Sidebar() {
     return (
         <>
