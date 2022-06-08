@@ -6,6 +6,7 @@ function Alert({ type, msg, removeAlert ,list}) {
       removeAlert();
     },3000)
     return () => clearTimeout(outalert) ;
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [list])
   
   return (
