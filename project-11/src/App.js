@@ -1,9 +1,11 @@
-import react from "react";
+import React from "react";
+import Navbar from "./Component/Navbar";
+import Sidebar from "./Component/Sidebar";
 function App() {
   return (
     <>
-      
-   
+      <Navbar/>
+
     </>
   );
 }
