@@ -6,14 +6,20 @@ import {BsFillMenuButtonWideFill } from "react-icons/bs";
 function Navbar() {
     const {openSidebar,openSubmenu,closeSubmenu} = useGlobalContext() ;
     const displaySubmenu = (e) =>{
-        const page = e.target.textContext ;
+        const page = e.target.textContent ;  // return textcontext 
         const temBtn = e.target.getBoundingClientRect();
-        const center = (temBtn.left + temBtn.right)/2 ;
-        const bottom = temBtn.bottom-3 ;
-        openSubmenu();
+        const center = (temBtn.left + temBtn.right)/2;
+        const bottom = temBtn.bottom-5 ;
+        openSubmenu(page, {center, bottom});
+    }
+    const handleSubmenu = (e) => {
+      // Condition to use mouse not over link-btn class 
+        if(!e.target.classList.contains('link-btn')){
+          closeSubmenu();
+        }
     }
   return (
-      <nav className='nav'>
+      <nav className='nav' onMouseOver={handleSubmenu}>
         <div className='nav-center'>
              <div className='nav-header'>
                 <img src={logo} className="nav-logo" alt='stripe' />

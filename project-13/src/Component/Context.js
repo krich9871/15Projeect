@@ -1,10 +1,13 @@
 import React,{useState,useContext} from 'react'
+import data from '../data/data' ;
 
 const AppContext = React.createContext();
 
 function AppProvider({children}) {
     const [isSidebaropen, SetSidebarOpen] = useState(false) ;
     const [isSubmenuopen,SetSubmenuopen] = useState(false) ;
+    const [location,Setlocation] = useState({});
+    const [page, Setpage] = useState({page:'',links: []});
 
     const openSidebar = () =>{
         SetSidebarOpen(true)
@@ -13,13 +16,16 @@ function AppProvider({children}) {
         SetSidebarOpen(false) ;
     }
     const openSubmenu = (text,coordinates) =>{
-        SetSubmenuopen(true)
+        const page = data.find((link)=> link.page === text);
+        Setpage(page) ;
+        Setlocation(coordinates);
+        SetSubmenuopen(true);
     }
     const closeSubmenu = () => {
         SetSubmenuopen(false) ;
     }
   return (
-    <AppContext.Provider value={{isSidebaropen,isSubmenuopen,openSidebar,closeSidebar,openSubmenu,closeSubmenu}}>{children}</AppContext.Provider>
+    <AppContext.Provider value={{isSidebaropen,isSubmenuopen,openSidebar,closeSidebar,openSubmenu,closeSubmenu,location,page}}>{children}</AppContext.Provider>
   )
 }
 export const useGlobalContext = () => {
