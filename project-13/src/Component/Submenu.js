@@ -18,7 +18,7 @@ function Submenu() {
         }else if(links.length>3){
           Setcolumns('col-4');
         }
-    },[location])
+    },[links.length, location])
 
   return (
     <aside className={`${isSubmenuopen? 'submenu show' : 'submenu'}`} ref={container}>
