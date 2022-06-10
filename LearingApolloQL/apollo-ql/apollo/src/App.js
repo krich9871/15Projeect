@@ -1,86 +1,157 @@
-import React from 'react';
+import React, { useState } from 'react';
 
 import {
   ApolloClient,
   InMemoryCache,
   ApolloProvider,
   useQuery,
-  gql
+  gql,
+  useMutation
 } from "@apollo/client";
 
 const client = new ApolloClient({
-  uri: 'https://48p1r2roz4.sse.codesandbox.io',
+  uri: 'https://api-ap-south-1.graphcms.com/v2/cl41eibrh34k601xs2ph960ld/master',
   cache: new InMemoryCache()
 });
 
-const EXCHANGE_RATES = gql`
-  query GetExchangeRates {
-    rates(currency: "USD") {
-      currency
-      rate
+// query
+const vocabs_query = gql`
+  query  Vocabs{
+    vocabs{
+      id
+      vocab 
+      meaning
+      rates
     }
   }
-`;
-const EXCHANGE_RATES2 = gql`
-   query Getrates {
-    rates {
-      currency
-      rate
-    }
-  }
+
 `;
 
-client
-  .query({
-    query: gql`
-      query GetRates {
-        rates(currency: "USD") {
-          currency
-          rate
-        }
-      }
-    `
-  })
-  .then(result => console.log(result));
-
-function ExchangeRates() {
-  const { loading, error, data } = useQuery(EXCHANGE_RATES);
-
+function Vocabs_Q() {
+  const { loading, error, data } = useQuery(vocabs_query);
   if (loading) return <p>Loading...</p>;
-  if (error) return <p>Error :</p>;
+  if (error) return <p>Error : ${error.message} </p>;
 
-  return data.rates.map(({ currency, rate }) => (
-    <div key={currency}>
-      <p>
-        {currency}: {rate}
+  return data.vocabs.map(({ id, vocab, meaning, rates }) => (
+    <div key={id}>
+      <p >
+        {vocab} : {meaning} : {rates}
+
       </p>
     </div>
   ));
 }
-  
-function ExchangeRates2({ onselecter }) {
-  const { loading, error, data } = useQuery(EXCHANGE_RATES2);
+//find
 
-  if (loading) return 'Loading...';
-  if (error) return `Error! ${error.message}`;
+
+
+
+const Vocabs_Find = ({ text = "" }) => {
+
+  const vocabs_find = gql`
+  query  Vocabs_find{
+    vocabs (where: {_search: "${text}"}){
+      id
+      vocab 
+      meaning
+      rates
+    }
+  }
+
+`;
+  const { loading, error, data } = useQuery(vocabs_find);
+  if (loading) return <p>Loading...</p>;
+  if (error) return <p>Error :  </p>;
 
   return (
-    <select name='rates' onChange={onselecter}>
-      {data.rates.map((rate) => (
-        <option key={rate.id} value={rate.rate}>
-          {rate.rate}
-        </option>
-      ))}
-    </select>
+    data && data.vocabs.map(({ id, vocab, meaning, rates }) => (
+      <div key={id}>
+        <p >
+          {vocab} : {meaning} : {rates}
+
+        </p>
+      </div>
+    ))
   );
 }
+
+// Mutation
+const Creat_vacab = ({ vacab = "", mean = "", rates = "" }) => {
+
+  const create_vacab = gql`
+
+mutation MyMutation {
+  createVocab(data: {meaning: "${mean}", rates: "${rates}", vocab: "${vacab}"}) {
+    meaning
+    rates
+    vocab
+  }
+ 
+}
+
+
+
+`;
+  const { data, loading, error } = useMutation(create_vacab);
+  if (loading) return <p>Loading...</p>;
+  if (error) return <p>Error :  </p>;
+
+  return (
+    data.vocabs.map(({ id, vocab, meaning, rates }) => (
+      <div key={id}>
+        <p >
+          {vocab} : {meaning} : {rates}
+        </p>
+      </div>
+    ))
+  );
+}
+
+
+
 function App() {
+  const [vacabshow, Setvocabshow] = useState("");
+  const [Newvocab, Setnewvacab] = useState("");
+  const [Newmean, Setnewmean] = useState("");
+  const [Newrate, Setnewrate] = useState("");
+
+  const handleSubmit = (event) => {
+    event.preventDefault();
+    alert(`Create New`)
+  }
+
   return (
     <ApolloProvider client={client}>
-    <div>
-      <h2>My Apollo app</h2>
-      <ExchangeRates/>
-    </div>
+      <div className='center'>
+        <h2>Query</h2>
+        <Vocabs_Q />
+
+        <div className='containee'>
+          <h2>Find</h2>
+          <input type="text" placeholder="find vacab" value={vacabshow} onChange={(e) => Setvocabshow(e.target.value)} />
+          <Vocabs_Find text={vacabshow} />
+        </div>
+        <div className='containee'>
+          <h2>Create</h2>
+          <form onSubmit={handleSubmit} >
+            <div className='contain-create'>
+              <label>New vocab:
+                <input type="text" placeholder="create vacab" value={Newvocab} onChange={(e) => Setnewvacab(e.target.value)} />
+              </label>
+              <label>New mean:
+                <input type="text" placeholder="create vacab" value={Newmean} onChange={(e) => Setnewmean(e.target.value)} />
+              </label>
+              <label>New rate:
+                <input type="number" placeholder="create vacab" value={Newrate} onChange={(e) => Setnewrate(e.target.value)} />
+              </label>
+            </div>
+
+            <button onClick={Creat_vacab}
+            > Submit  </button>
+          </form>
+        </div>
+
+      </div>
     </ApolloProvider>
   );
 }

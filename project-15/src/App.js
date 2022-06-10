@@ -1,28 +1,24 @@
-import React from 'react';
-import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
-import Navbar from './Component/Navbar';
+import logo from './logo.svg';
+import './App.css';
 
-//page
-import Home from './Page/Home';
-import About from './Page/About';
-import SingleCocktail from './Page/SingleCocktail';
-import Error from './Page/Error';
-
-//
 function App() {
   return (
-    <>
-      <Router>
-        <Navbar />
-        <Routes>
-          <h1>sdsd</h1>
-          <Route exact path="/" element={<Home />} />
-          <Route path="/about" element={<About />} />
-          <Route path="/cocktail/:id" element={<SingleCocktail />} />
-          <Route path="*" element={<Error />} />
-        </Routes>
-      </Router>
-    </>
+    <div className="App">
+      <header className="App-header">
+        <img src={logo} className="App-logo" alt="logo" />
+        <p>
+          Edit <code>src/App.js</code> and save to reload.
+        </p>
+        <a
+          className="App-link"
+          href="https://reactjs.org"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          Learn React
+        </a>
+      </header>
+    </div>
   );
 }
 
